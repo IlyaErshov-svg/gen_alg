@@ -1,9 +1,10 @@
 #include <iostream>
 #include <filesystem>
+#include "parser_factory.h"
 #include "species.h"
 #include "genetic.h"
-#include "parser_b.h"
-#include "parser_e.h"
+//#include "parser_b.h"
+//#include "parser_e.h"
 
 int main(int argc, char* argv[]) {
      if (argc < 2) {
@@ -11,9 +12,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::string directoryPath = argv[1]; // Получаем путь из аргументов
+    std::string directoryPath = argv[1]; 
 
-    // Проверяем, существует ли путь и это ли директория
     if (!std::filesystem::exists(directoryPath)) {
         std::cerr << "Ошибка: указанный путь не существует!\n";
         return 1;
@@ -24,20 +24,20 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Выводим список всех файлов в директории
     std::cout << "Список файлов в директории: " << directoryPath << "\n";
     for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
         std::cout << entry.path().filename() << "\n";
-        if (entry.path().string().find("E") == std::string::npos) {
-            continue;
-        }
-        auto parser = NCVRP::NParser::TParserE();
-        bool result = parser.Parse(entry.path().string());
-        NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(200, 10, 0.5, 1000, parser.GetCapacity());
+        std::string filename = entry.path().filename().string();
+        std::string type;
+        type += filename[0];
+        std::cout << type << std::endl;
+        auto parser = NCVRP::NParser::ParserFactory::createParser(type);
+        auto result = parser->Parse( entry.path().string());
+        NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(200, 10, 0.5, 1000, result.Capacity);
         std::cout << "Genetic algorithm started" << std::endl;
-        auto res = geneticAlgorithm.Calculation(parser.GetDistanceMatrix(), parser.GetDemandVector());
+        auto res = geneticAlgorithm.Calculation(result.DistanceMatrix, result.DemandVector);
         std::cout << "Result: " << res.second << std::endl;
-        geneticAlgorithm.FitnessPrint(res.first.GetGens(), parser.GetDistanceMatrix(), parser.GetDemandVector());
+        geneticAlgorithm.FitnessPrint(res.first.GetGens(), result.DistanceMatrix, result.DemandVector);
     }
     return 0;
 }
