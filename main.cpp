@@ -3,8 +3,11 @@
 #include "parser_factory.h"
 #include "species.h"
 #include "genetic.h"
-//#include "parser_b.h"
-//#include "parser_e.h"
+#include "fitness.h"
+#include "crossing.h"
+#include "mutation.h"
+#include "selector.h"
+
 
 int main(int argc, char* argv[]) {
      if (argc < 2) {
@@ -33,9 +36,10 @@ int main(int argc, char* argv[]) {
         std::cout << type << std::endl;
         auto parser = NCVRP::NParser::ParserFactory::createParser(type);
         auto result = parser->Parse( entry.path().string());
+        TFitnessFunction fitnessFunction(result.DistanceMatrix, result.DemandVector, result.Capacity);
         NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(200, 10, 0.5, 1000, result.Capacity);
         std::cout << "Genetic algorithm started" << std::endl;
-        auto res = geneticAlgorithm.Calculation(result.DistanceMatrix, result.DemandVector);
+        auto res = geneticAlgorithm.Calculation(result.Dimension, TChooser(), Cross<TSpecies>(), Mutation<TSpecies>(), fitnessFunction);
         std::cout << "Result: " << res.second << std::endl;
         geneticAlgorithm.FitnessPrint(res.first.GetGens(), result.DistanceMatrix, result.DemandVector);
     }
