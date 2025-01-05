@@ -7,6 +7,7 @@
 #include "crossing.h"
 #include "mutation.h"
 #include "selector.h"
+#include "utility.h"
 
 
 int main(int argc, char* argv[]) {
@@ -37,11 +38,11 @@ int main(int argc, char* argv[]) {
         auto parser = NCVRP::NParser::ParserFactory::createParser(type);
         auto result = parser->Parse( entry.path().string());
         TFitnessFunction fitnessFunction(result.DistanceMatrix, result.DemandVector, result.Capacity);
-        NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(200, 10, 0.5, 1000, result.Capacity);
+        NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(200, 10, 0.5, 1000);
         std::cout << "Genetic algorithm started" << std::endl;
         auto res = geneticAlgorithm.Calculation(result.Dimension, TChooser(), Cross<TSpecies>(), Mutation<TSpecies>(), fitnessFunction);
         std::cout << "Result: " << res.second << std::endl;
-        geneticAlgorithm.FitnessPrint(res.first.GetGens(), result.DistanceMatrix, result.DemandVector);
+        FitnessPrint(res.first.GetGens(), result.DistanceMatrix, result.DemandVector, result.Capacity);
     }
     return 0;
 }

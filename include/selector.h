@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utility.h"
 #include <vector>
 #include <random>
 
@@ -35,10 +36,7 @@ public:
     }
 
     std::size_t getRandomIndex() const {
-        std::random_device rd; 
-        std::mt19937 gen(rd()); 
-        std::uniform_real_distribution<double> dis(0.0, 1.0);
-        double genNum = dis(gen);
+        double genNum = GetRandomDouble(0.0, 1.0);
         std::size_t index = 0;
         double weight = weights_[index];
         while (weight < genNum) {
