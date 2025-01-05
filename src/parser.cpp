@@ -55,7 +55,7 @@ namespace NCVRP::NParser {
                 result.FileName = line.substr(line.find(":") + 2);
             } else if (line.starts_with("COMMENT")) {
                 std::size_t posLeft = line.find("Optimal value: ") + 15;
-                std::size_t posRight = line.find(")") - 1;
+                std::size_t posRight = line.find(")");
                 result.OptimalSolution = std::stod(line.substr(posLeft, posRight - posLeft));
             } else if (line.starts_with("TYPE")) {
                 result.FileType = line.substr(line.find(":") + 2);
@@ -130,7 +130,7 @@ namespace NCVRP::NParser {
                 result.FileName = line.substr(line.find(":") + 2);
             } else if (line.starts_with("COMMENT")) {
                 std::size_t posLeft = line.find("Optimal value: ") + 15;
-                std::size_t posRight = line.find(")") - 1;
+                std::size_t posRight = line.find(")");
                 result.OptimalSolution = std::stod(line.substr(posLeft, posRight - posLeft));
             } else if (line.starts_with("TYPE")) {
                 result.FileType = line.substr(line.find(":") + 2);
