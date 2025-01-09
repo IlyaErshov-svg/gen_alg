@@ -53,24 +53,36 @@ std::pair<T, double> NCVRP::NGenetic::TGeneticAlgorithm<T>::Calculation(const st
         //Выкидываем ноль
         T gen(dimention - 1);
         gen.GenerateGens();
+        gen.SetFitness(fitness(gen.GetGens()));
         Population_.emplace_back(gen);
     }
-
+    std::sort(Population_.begin(), Population_.begin() + PopulationCrossingSize_ - 1, [fitness](const T& a, const T& b) mutable {
+        return a.GetFitness() < b.GetFitness();
+    });
     for(std::size_t i = 0; i < Iteration_; ++i) {
         for (std::size_t j = PopulationCrossingSize_; j < PopulationSize_; ++j) {
-            T newGen = crossing(Population_[selector()], Population_[selector()]);
+            std::size_t index1 = selector();
+            std::size_t index2 = selector();
+            while ( index1 == index2 ) {
+                index2 = selector();
+            }
+            T newGen = crossing(Population_[index1], Population_[index2]);
             if (GetRandomDouble(0.0, 1.0) < MutationProbability_) {
                 newGen = mutation(newGen);
             }
+            newGen.SetFitness(fitness(newGen.GetGens()));
             Population_.emplace_back(newGen);
         }
 
         std::sort(Population_.begin(), Population_.end(), [fitness](const T& a, const T& b) mutable {
-            return fitness(a.GetGens()) < fitness(b.GetGens());
+            return a.GetFitness() < b.GetFitness();
         });
         Population_.resize(PopulationCrossingSize_);
-        tempResult =  fitness(Population_[0].GetGens()) < fitness(tempResult.GetGens()) ? Population_[0] : tempResult;
+        tempResult =  Population_[0].GetFitness() < tempResult.GetFitness() ? Population_[0] : tempResult;
+        if (i % 100 == 0) {
+            std::cout << Population_[0].GetFitness() << std::endl; 
+        }
     }
-    
+
     return std::pair<T, double>(Population_[0], fitness(Population_[0].GetGens()));
 }

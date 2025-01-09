@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
         std::cerr << "Ошибка: указанный путь не является директорией!\n";
         return 1;
     }
-    CSVWriter writer("calculation.csv");
+    CSVWriter writer("calculation_12.csv");
     std::cout << "Список файлов в директории: " << directoryPath << "\n";
     for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
         Data data;
@@ -41,10 +41,10 @@ int main(int argc, char* argv[]) {
         auto parser = NCVRP::NParser::ParserFactory::createParser(type);
         auto result = parser->Parse( entry.path().string());
         TFitnessFunction fitnessFunction(result.DistanceMatrix, result.DemandVector, result.Capacity);
-        NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(500, 0.1, 0.6, 5000);
+        NCVRP::NGenetic::TGeneticAlgorithm<TSpecies> geneticAlgorithm(2000, 0.2, 0.7, 3000);
         std::cout << "Genetic algorithm started" << std::endl;
         clock_t start = std::clock();
-        auto res = geneticAlgorithm.Calculation(result.Dimension, TChooser(), Cross<TSpecies>(), Mutation<TSpecies>(), fitnessFunction);
+        auto res = geneticAlgorithm.Calculation(result.Dimension, TChooserRandom(), Cross<TSpecies>(), Mutation<TSpecies>(), fitnessFunction);
         clock_t end = std::clock();
         double elapsed_seconds = double(end - start) / CLOCKS_PER_SEC;
         data.timeCalcultation = elapsed_seconds;

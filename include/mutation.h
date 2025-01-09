@@ -18,3 +18,18 @@ T Mutation<T>::operator()(const T& specie) {
     std::swap(newGens[index1], newGens[index2]);
     return T(newGens);
 }
+
+
+template <typename T>
+class MutationReverse {
+public:
+    T operator()(const T& specie);
+};
+
+
+template <typename T>
+T MutationReverse<T>::operator()(const T& specie) {
+    std::vector<std::size_t> newGens(specie.GetGens());
+    std::reverse(newGens.begin(), newGens.end());
+    return T(newGens);
+}

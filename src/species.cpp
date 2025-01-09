@@ -15,6 +15,14 @@ std::vector<std::size_t>& TSpecies::GetGens() {
     return Gens;
 }
 
+void TSpecies::SetFitness(double fitness) {
+    Fitness_ = fitness;
+}
+
+double TSpecies::GetFitness() const {
+    return Fitness_;
+}
+
 const std::vector<std::size_t>& TSpecies::GetGens() const {
     return Gens;
 }

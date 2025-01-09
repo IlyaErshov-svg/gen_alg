@@ -5,10 +5,10 @@
 #include <random>
 
 
-class TChooser {
+class TChooserWeighted {
 public:
-    TChooser() = default;
-    TChooser(std::size_t populationSize) : PopulationSize_(populationSize) {
+    TChooserWeighted() = default;
+    TChooserWeighted(std::size_t populationSize) : PopulationSize_(populationSize) {
         weights_.resize(populationSize);
         std::size_t sum = 0;
         for (std::size_t i = 1; i <= populationSize; ++i) {
@@ -48,4 +48,26 @@ public:
 private:
     std::size_t PopulationSize_;
     std::vector<double> weights_;
+};
+
+
+class TChooserRandom {
+public:
+    TChooserRandom() = default;
+    TChooserRandom(std::size_t populationSize) : PopulationSize_(populationSize) {
+    }
+
+    std::size_t operator()() const {
+        return getRandomIndex();
+    }
+
+    void setPopulationSize(std::size_t populationSize) {
+        PopulationSize_ = populationSize;
+    }
+
+    std::size_t getRandomIndex() const {
+        return rand() % PopulationSize_;
+    }
+private:
+    std::size_t PopulationSize_;
 };
