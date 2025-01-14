@@ -5,9 +5,9 @@
 #include <random>
 
 
-void FitnessPrint(const std::vector<std::size_t> &gens, const std::vector<std::vector<double>> &distanceMatrix, const std::vector<double> &demandVector, std::size_t capacity) {
-    double fitness = 0.0;
-    double localCapacity = 0.0;
+void FitnessPrint(const std::vector<std::size_t> &gens, const std::vector<std::vector<double>> &distanceMatrix, const std::vector<int> &demandVector, std::size_t capacity) {
+    double fitness = 0;
+    int localCapacity = 0;
     std::size_t from = 0;
     std::cout << "Gens: ";
     for (std::size_t i = 0; i < gens.size(); ++i) {

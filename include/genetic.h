@@ -20,7 +20,7 @@ namespace NCVRP::NGenetic {
         TGeneticAlgorithm operator=(TGeneticAlgorithm&&) = delete;
         TGeneticAlgorithm(std::size_t populationSize, double mutationProbability, double crossover, std::size_t iteration);
         template <typename Selector, typename Crossing, typename Mutation, typename Fitness>
-        std::pair<T, double> Calculation(const std::size_t dimention, Selector selector, Crossing crossing, Mutation mutation, Fitness fitness);
+        std::pair<T, int> Calculation(const std::size_t dimention, Selector selector, Crossing crossing, Mutation mutation, Fitness fitness);
         ~TGeneticAlgorithm() = default;
     private:
         std::size_t PopulationSize_;
@@ -45,7 +45,7 @@ NCVRP::NGenetic::TGeneticAlgorithm<T>::TGeneticAlgorithm(std::size_t populationS
 
 template<typename T>
 template<typename Selector, typename Crossing, typename Mutation, typename Fitness>
-std::pair<T, double> NCVRP::NGenetic::TGeneticAlgorithm<T>::Calculation(const std::size_t dimention, Selector selector, Crossing crossing, Mutation mutation, Fitness fitness) {
+std::pair<T, int> NCVRP::NGenetic::TGeneticAlgorithm<T>::Calculation(const std::size_t dimention, Selector selector, Crossing crossing, Mutation mutation, Fitness fitness) {
     T tempResult(dimention - 1);
     selector.setPopulationSize(PopulationCrossingSize_);
 
@@ -84,5 +84,5 @@ std::pair<T, double> NCVRP::NGenetic::TGeneticAlgorithm<T>::Calculation(const st
         }
     }
 
-    return std::pair<T, double>(Population_[0], fitness(Population_[0].GetGens()));
+    return std::pair<T, int>(Population_[0], fitness(Population_[0].GetGens()));
 }

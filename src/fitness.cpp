@@ -1,9 +1,9 @@
 #include "fitness.h"
 
 
-double TFitnessFunction::operator()(const std::vector<std::size_t>& gens) {
-    double fitness = 0.0;
-    double capacity = 0.0;
+int TFitnessFunction::operator()(const std::vector<std::size_t>& gens) {
+    double fitness = 0;
+    int capacity = 0;
     std::size_t from = 0;
     for (std::size_t i = 0; i < gens.size(); ++i) {
         if (capacity + demandVector_[gens[i]] > Capacity_) {
@@ -17,5 +17,5 @@ double TFitnessFunction::operator()(const std::vector<std::size_t>& gens) {
         }
     }
     fitness += distanceMatrix_[from][0];
-    return fitness;
+    return static_cast<int>(fitness);
 }

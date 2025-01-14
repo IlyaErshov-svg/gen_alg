@@ -8,13 +8,13 @@ class TSpecies {
         TSpecies(const TSpecies&) = default; 
         TSpecies(std::size_t size);
         TSpecies(const std::vector<std::size_t>& gens);
-        void SetFitness(double fitness);
-        double GetFitness() const;
+        void SetFitness(int fitness);
+        int GetFitness() const;
         std::vector<std::size_t>& GetGens();
         std::size_t GetSize() const;
         const std::vector<std::size_t>& GetGens() const;
         void GenerateGens();
     private:
-        double Fitness_;
+        int Fitness_;
         std::vector<std::size_t> Gens;
 };

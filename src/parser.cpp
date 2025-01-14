@@ -8,14 +8,14 @@ namespace NCVRP::NParser {
     std::vector<std::vector<double>> NCVRP::NParser::TParserB::ParseDistanceMatrix(std::ifstream& file, std::size_t dimension) {
         std::string line;
         std::vector<std::vector<double>> matrix;
-        std::vector<std::pair<double, double>> vectorNodes;
+        std::vector<std::pair<int, int>> vectorNodes;
         vectorNodes.resize(dimension);
         for (std::size_t i = 0; i < dimension; ++i) {
             std::getline(file, line);
             std::stringstream ss(line);
             std::size_t index;
             ss >> index;
-            double x, y;
+            int x, y;
             ss >> x >> y;
             vectorNodes[index - 1].first = x;
             vectorNodes[index - 1].second = y;
@@ -24,22 +24,22 @@ namespace NCVRP::NParser {
         for (std::size_t i = 0; i < dimension; ++i) {
             matrix[i].resize(dimension);
             for (std::size_t j = 0; j < dimension; ++j) {
-                matrix[i][j] = std::sqrt(std::pow(vectorNodes[i].first - vectorNodes[j].first, 2) + std::pow(vectorNodes[i].second - vectorNodes[j].second, 2));
+                matrix[i][j] = sqrt((vectorNodes[i].first - vectorNodes[j].first) * (vectorNodes[i].first - vectorNodes[j].first) + (vectorNodes[i].second - vectorNodes[j].second) * (vectorNodes[i].second - vectorNodes[j].second));
             }
         }
         return matrix;
     }
 
-    std::vector<double> NCVRP::NParser::TParserB::ParseDemandVector(std::ifstream& file, std::size_t dimension) {
+    std::vector<int> NCVRP::NParser::TParserB::ParseDemandVector(std::ifstream& file, std::size_t dimension) {
         std::string line;
-        std::vector<double> vector;
+        std::vector<int> vector;
         vector.resize(dimension);
         for (std::size_t i = 0; i < dimension; ++i) {
             std::getline(file, line);
             std::stringstream ss(line);
             std::size_t index;
             ss >> index;
-            double demand;
+            int demand;
             ss >> demand;
             vector[index - 1] = demand;
         }
@@ -83,7 +83,7 @@ namespace NCVRP::NParser {
                 break;
             }
             std::stringstream ss(line);
-            double weight;
+            int weight;
             while (ss >> weight) {
                 tempWeights.push_back(weight);
             }
@@ -104,16 +104,16 @@ namespace NCVRP::NParser {
         return matrix;
     }
 
-    std::vector<double> NCVRP::NParser::TParserE::ParseDemandVector(std::ifstream& file, std::size_t dimension) {
+    std::vector<int> NCVRP::NParser::TParserE::ParseDemandVector(std::ifstream& file, std::size_t dimension) {
         std::string line;
-        std::vector<double> vector;
+        std::vector<int> vector;
         vector.resize(dimension);
         for (std::size_t i = 0; i < dimension; ++i) {
             std::getline(file, line);
             std::stringstream ss(line);
             std::size_t index;
             ss >> index;
-            double demand;
+            int demand;
             ss >> demand;
             vector[index - 1] = demand;
         }

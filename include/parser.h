@@ -12,7 +12,7 @@ namespace NCVRP::NParser {
         std::size_t Dimension;
         std::size_t Capacity;
         std::vector<std::vector<double>> DistanceMatrix;
-        std::vector<double> DemandVector;
+        std::vector<int> DemandVector;
     };
 
     class IParser {
@@ -26,7 +26,7 @@ namespace NCVRP::NParser {
         TParserResult Parse(const std::string& fileName) override;
     private:
         std::vector<std::vector<double>> ParseDistanceMatrix(std::ifstream& file, std::size_t dimension);
-        std::vector<double> ParseDemandVector(std::ifstream& file, std::size_t dimension);
+        std::vector<int> ParseDemandVector(std::ifstream& file, std::size_t dimension);
     };
 
     class TParserE : public IParser {
@@ -34,6 +34,6 @@ namespace NCVRP::NParser {
         TParserResult Parse(const std::string& fileName) override;
     private:
         std::vector<std::vector<double>> ParseDistanceMatrix(std::ifstream& file, std::size_t dimension);
-        std::vector<double> ParseDemandVector(std::ifstream& file, std::size_t dimension);
+        std::vector<int> ParseDemandVector(std::ifstream& file, std::size_t dimension);
     };
 }
