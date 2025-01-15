@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
         std::cerr << "Ошибка: указанный путь не является директорией!\n";
         return 1;
     }
-    CSVWriter writer("calculation_17_P.csv");
+    CSVWriter writer("calculation_20_P.csv");
     std::cout << "Список файлов в директории: " << directoryPath << "\n";
     for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
         Data data;
@@ -56,6 +56,7 @@ int main(int argc, char* argv[]) {
         data.decision = (res.second / (static_cast<double>(result.OptimalSolution))  - 1.0) * 100;
         writer.WriteRow(data);
         std::cout << "Result: " << res.second << std::endl;
+        std::cout << "Capacity: " << result.Capacity << std::endl;
         FitnessPrint(res.first.GetGens(), result.DistanceMatrix, result.DemandVector, result.Capacity);
     }
     return 0;

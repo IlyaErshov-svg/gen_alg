@@ -6,7 +6,7 @@ int TFitnessFunction::operator()(const std::vector<std::size_t>& gens) {
     int capacity = 0;
     std::size_t from = 0;
     for (std::size_t i = 0; i < gens.size(); ++i) {
-        if (capacity + demandVector_[gens[i]] > Capacity_) {
+        if (capacity + demandVector_[gens[i]] > Capacity_ || distanceMatrix_[from][gens[i]] > distanceMatrix_[from][0] + distanceMatrix_[0][gens[i]]) {
             fitness += distanceMatrix_[from][0] + distanceMatrix_[0][gens[i]];
             capacity = demandVector_[gens[i]];
             from = gens[i];

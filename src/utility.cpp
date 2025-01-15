@@ -11,8 +11,8 @@ void FitnessPrint(const std::vector<std::size_t> &gens, const std::vector<std::v
     std::size_t from = 0;
     std::cout << "Gens: ";
     for (std::size_t i = 0; i < gens.size(); ++i) {
-        if (localCapacity + demandVector[gens[i]] > capacity) {
-            std::cout << " (" << capacity << ") ";
+        if (localCapacity + demandVector[gens[i]] > capacity || distanceMatrix[from][gens[i]] > distanceMatrix[from][0] + distanceMatrix[0][gens[i]]) {
+            std::cout << " (" << localCapacity << ") ";
             std::cout << "| ";
             fitness += distanceMatrix[from][0] + distanceMatrix[0][gens[i]];
             localCapacity = demandVector[gens[i]];
@@ -25,6 +25,7 @@ void FitnessPrint(const std::vector<std::size_t> &gens, const std::vector<std::v
         std::cout << gens[i] + 1 << " ";
     }
     fitness += distanceMatrix[from][0];
+    std::cout << " (" << localCapacity << ") ";
     std::cout << "Fitness: " << fitness << std::endl;
 }
 
