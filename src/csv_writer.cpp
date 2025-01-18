@@ -9,7 +9,7 @@ CSVWriter::CSVWriter(const std::string& filename) : FileName_(filename) {
     if (!fileExists) {
         std::ofstream outFile(filename, std::ios::app);
         if (!outFile.is_open()) {
-            throw std::runtime_error("Не удалось открыть файл для записи: " + filename);
+            throw std::runtime_error("Failed to open the file for writing: " + filename);
         }
         outFile << "filename,dimension,optimalSolution,calculatedSolution,decision,timeCalcultation\n";
     }
@@ -19,7 +19,7 @@ CSVWriter::CSVWriter(const std::string& filename) : FileName_(filename) {
 void CSVWriter::WriteRow(const Data& data) {
     std::ofstream outFile(FileName_, std::ios::app); // Открываем файл на добавление
     if (!outFile.is_open()) {
-        throw std::runtime_error("Не удалось открыть файл для записи: " + FileName_);
+        throw std::runtime_error("Failed to open the file for writing: " + FileName_);
     }
     outFile << data.filename << "," << std::to_string(data.dimension) << "," << std::to_string(data.optimalSolution) << "," << std::to_string(data.calculatedSolution) << "," << std::to_string(data.decision) << "," << std::to_string(data.timeCalcultation) << "\n";
 }
