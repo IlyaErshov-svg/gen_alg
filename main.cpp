@@ -2,6 +2,7 @@
 #include <iostream>
 #include <filesystem>
 #include <ctime>
+#include <string>
 #include "csv_writer.h"
 #include "parser_factory.h"
 #include "species.h"
@@ -11,6 +12,7 @@
 #include "mutation.h"
 #include "selector.h"
 #include "utility.h"
+#include "benchmark.h"
 
 
 int main(int argc, char* argv[]) {
@@ -22,6 +24,16 @@ int main(int argc, char* argv[]) {
      if (argc < 2) {
         std::cerr << "Error: specify path to directory in arguments!\n";
         return 1;
+    }
+
+    if (argc == 3 && std::string(argv[2]) == "search_optimal_parameters") {
+        std::cout << "Searching optimal parameters...\n";
+        NCVRP::NBenchmark::Benchmark benchmark(400, 2000, 400, 0.1, 0.3, 0.1, 0.5, 0.8, 0.1, 500, 2000, 500);
+        std::string directoryPath = argv[1];
+        std::string outputFilePath = "output.csv";
+        std::cout << "Output file: " << outputFilePath << std::endl;
+        benchmark.Run(directoryPath, outputFilePath, 10);
+        return 0;
     }
 
     std::string directoryPath = argv[1]; 

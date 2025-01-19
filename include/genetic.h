@@ -79,9 +79,6 @@ std::pair<T, int> NCVRP::NGenetic::TGeneticAlgorithm<T>::Calculation(const std::
         });
         Population_.resize(PopulationCrossingSize_);
         tempResult =  Population_[0].GetFitness() < tempResult.GetFitness() ? Population_[0] : tempResult;
-        if (i % 100 == 0) {
-            std::cout << Population_[0].GetFitness() << std::endl; 
-        }
     }
 
     return std::pair<T, int>(Population_[0], fitness(Population_[0].GetGens()));
